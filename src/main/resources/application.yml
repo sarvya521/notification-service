@@ -1,0 +1,59 @@
+# Includes all common properties irrespective of any environment
+---
+spring:
+  application:
+    name: tm-notification-svc
+---
+spring:
+  r2dbc:
+    pool:
+      enabled: true
+      initial-size: 100
+      max-size: 500
+      max-idle-time: 30m
+      validation-query: SELECT 1
+  data:
+    web:
+      pageable:
+        default-page-size: 20
+        max-page-size: 2000
+---
+spring:
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+      write-dates-as-timestamps: true
+---
+#i18n settings start here
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+---
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+    info:
+      enabled: true
+    httptrace:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  trace:
+    http:
+      include:
+        - REQUEST_HEADERS
+        - RESPONSE_HEADERS
+        - COOKIE_HEADERS
+        - REMOTE_ADDRESS
+---
+logging:
+  config: "classpath:logback.xml"
+  level:
+    root: warn
+    com.tm.notification: warn

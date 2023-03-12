@@ -1,0 +1,24 @@
+spring:
+  config:
+    activate:
+      on-profile: it
+---
+spring:
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+    host: smtp.gmail.com
+    username: creamymonkey25@gmail.com
+    password: hykpbahgmhxoupot
+    port: 587
+---
+logging:
+  config: "classpath:logback-test.xml"
+  level:
+    root: info
+    com.tm.notification: debug
+

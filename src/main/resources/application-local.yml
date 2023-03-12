@@ -1,0 +1,29 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+---
+spring:
+  r2dbc:
+    url: r2dbc:mysql://localhost:13306/sp_notification?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+    username: spadmin
+    password: spadmin
+---
+spring:
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+    host: smtp.gmail.com
+    username: fake-it@gmail.com
+    password: fake-it
+    port: 587
+---
+logging:
+  level:
+    root: info
+    com.tm.notification: debug
+  config: "classpath:logback-test.xml"

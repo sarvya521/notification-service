@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+---
+logging:
+  config: "classpath:logback-test.xml"
+  level:
+    root: info
+    com.tm.notification: debug

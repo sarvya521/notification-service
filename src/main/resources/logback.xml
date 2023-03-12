@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="jsonstdout" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+      <providers>
+        <timestamp>
+          <fieldName>time</fieldName>
+          <pattern>[ISO_OFFSET_DATE_TIME]</pattern>
+        </timestamp>
+        <pattern>
+          <omitEmptyFields>true</omitEmptyFields>
+          <pattern>
+            {
+            "log_format":"application",
+            "logger": {"name":"logback","version":"v1.2.11"},
+            "app_name":"tm-notification-svc",
+            "app_version":"v@project.version@",
+            "level": "%level",
+            "message": "%message",
+            "details": "%exception",
+            "user_ip": "%mdc{user_ip}",
+            "correlation_ids": {"x-correlation-id": "%mdc{traceId}"},
+            "app_labels": {"hostname": "${hostname}","environment": "${environment}","track":
+            "stable"},
+            "http_request": {"headers":
+            {"user-agent":"%mdc{user-agent}","referer":"%mdc{referer}","x-forwarded-for":"%mdc{x-forwarded-for}"},"target":"%mdc{target}","method":"%mdc{http_method}","status":"#asLong{%mdc{http_status_code}}","direction":"%mdc{direction}"}
+            }
+          </pattern>
+        </pattern>
+        <nestedField>
+          <fieldName>private</fieldName>
+          <providers>
+            <pattern>
+              <omitEmptyFields>true</omitEmptyFields>
+              <pattern>
+                {
+                "tm-notification-svc":
+                {"location":"%C.%M-%L","api":"%mdc{api}"}
+                }
+              </pattern>
+            </pattern>
+          </providers>
+        </nestedField>
+        <stackTrace>
+          <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+            <maxLength>1024</maxLength>
+            <shortenedClassNameLength>20</shortenedClassNameLength>
+          </throwableConverter>
+        </stackTrace>
+      </providers>
+    </encoder>
+  </appender>
+  <root level="warn">
+    <appender-ref ref="jsonstdout"/>
+  </root>
+</configuration>
